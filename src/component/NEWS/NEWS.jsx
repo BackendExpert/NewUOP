@@ -14,7 +14,7 @@ const NEWS = () => {
             .then((res) => {
                 if (res.data.Result) {
                     const sortedNews = res.data.Result.sort(
-                        (a, b) => new Date(b.date) - new Date(a.date)
+                        (a, b) => new Date(b.news_date || b.date) - new Date(a.news_date || a.date)
                     );
                     const lastSixNews = sortedNews.slice(0, 6);
                     setnewsdata(lastSixNews);
@@ -68,9 +68,9 @@ const NEWS = () => {
                                         <h2 className="text-2xl font-bold drop-shadow-md">
                                             {news.news_title}
                                         </h2>
-                                        {news.date && (
+                                        {(news.news_date || news.date) && (
                                             <p className="text-gray-300 mt-1 text-sm font-medium">
-                                                {new Date(news.date).toLocaleDateString(undefined, {
+                                                {new Date(news.news_date || news.date).toLocaleDateString(undefined, {
                                                     year: "numeric",
                                                     month: "short",
                                                     day: "numeric",
@@ -86,9 +86,9 @@ const NEWS = () => {
                                         onClick={(e) => e.stopPropagation()} // prevent toggle collapse on desc click
                                     >
                                         <h2 className="text-2xl font-bold mb-2">{news.news_title}</h2>
-                                        {news.date && (
+                                        {(news.news_date || news.date) && (
                                             <p className="text-gray-300 mb-4 text-sm font-medium">
-                                                {new Date(news.date).toLocaleDateString(undefined, {
+                                                {new Date(news.news_date || news.date).toLocaleDateString(undefined, {
                                                     year: "numeric",
                                                     month: "short",
                                                     day: "numeric",
@@ -127,9 +127,9 @@ const NEWS = () => {
                                         <h2 className="text-[#560606] text-xl font-bold mb-2">
                                             {news.news_title}
                                         </h2>
-                                        {news.date && (
+                                        {(news.news_date || news.date) && (
                                             <p className="text-gray-500 text-sm mb-4">
-                                                {new Date(news.date).toLocaleDateString(undefined, {
+                                                {new Date(news.news_date || news.date).toLocaleDateString(undefined, {
                                                     year: "numeric",
                                                     month: "short",
                                                     day: "numeric",
