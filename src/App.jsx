@@ -46,7 +46,7 @@ function AppContent() {
 
       {!hideNavBarForDashboard && (
         <div
-          className={`fixed ${showMainNav ? "top-16 xl:top-28" : "top-0"
+          className={`fixed ${showMainNav ? "top-0 xl:top-28" : "top-0"
             } w-full z-40 transition-transform duration-300 ${showSecNav ? "translate-y-0" : "-translate-y-full"
             }`}
         >
