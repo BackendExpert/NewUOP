@@ -14,25 +14,25 @@ const NewsEventNotice = () => {
     };
 
     return (
-        <div className="py-20 flex flex-col items-center px-4">
+        <div className="py-20 flex flex-col items-center px-4 max-w-7xl mx-auto">
             {/* Buttons at the top */}
             <div className="mb-6 flex space-x-6">
                 <button
                     onClick={goPrev}
                     aria-label="Previous news"
                     className="
-                        flex items-center justify-center
-                        w-10 h-10 sm:w-12 sm:h-12
-                        bg-white 
-                        border border-gray-300
-                        rounded-full
-                        shadow-md
-                        hover:bg-[#560606] hover:border-[#560606]
-                        hover:text-white
-                        transition
-                        duration-300
-                        focus:outline-none focus:ring-2 focus:ring-[#560606]
-                    "
+            flex items-center justify-center
+            w-10 h-10 sm:w-12 sm:h-12
+            bg-white 
+            border border-gray-300
+            rounded-full
+            shadow-md
+            hover:bg-[#560606] hover:border-[#560606]
+            hover:text-white
+            transition
+            duration-300
+            focus:outline-none focus:ring-2 focus:ring-[#560606]
+          "
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -49,18 +49,18 @@ const NewsEventNotice = () => {
                     onClick={goNext}
                     aria-label="Next news"
                     className="
-                        flex items-center justify-center
-                        w-10 h-10 sm:w-12 sm:h-12
-                        bg-white 
-                        border border-gray-300
-                        rounded-full
-                        shadow-md
-                        hover:bg-[#560606] hover:border-[#560606]
-                        hover:text-white
-                        transition
-                        duration-300
-                        focus:outline-none focus:ring-2 focus:ring-[#560606]
-                    "
+            flex items-center justify-center
+            w-10 h-10 sm:w-12 sm:h-12
+            bg-white 
+            border border-gray-300
+            rounded-full
+            shadow-md
+            hover:bg-[#560606] hover:border-[#560606]
+            hover:text-white
+            transition
+            duration-300
+            focus:outline-none focus:ring-2 focus:ring-[#560606]
+          "
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -74,11 +74,8 @@ const NewsEventNotice = () => {
                 </button>
             </div>
 
-            {/* Carousel container — full width, max width */}
-            <div
-                className="overflow-hidden relative w-full"
-                style={{ position: 'relative' }}
-            >
+            {/* Carousel container */}
+            <div className="overflow-hidden relative w-full" style={{ position: 'relative' }}>
                 {/* Sliding wrapper */}
                 <div
                     className="flex transition-transform duration-500 ease-in-out"
@@ -87,15 +84,15 @@ const NewsEventNotice = () => {
                         transform: `translateX(-${(100 / newsCount) * currentIndex}%)`,
                     }}
                 >
-                    {[...Array(newsCount)].map((_, idx) => (
-                        <div
-                            key={idx}
-                            className="flex-shrink-0"
-                            style={{ width: `${100 / newsCount}%` }}
-                        >
-                            <NEWS />
-                        </div>
-                    ))}
+                    <div className="flex-shrink-0" style={{ width: `${100 / newsCount}%` }}>
+                        <NEWS />
+                    </div>
+                    <div className="flex-shrink-0" style={{ width: `${100 / newsCount}%` }}>
+                        <NEWS />
+                    </div>
+                    <div className="flex-shrink-0" style={{ width: `${100 / newsCount}%` }}>
+                        <NEWS />
+                    </div>
                 </div>
             </div>
         </div>
