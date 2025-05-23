@@ -1,25 +1,35 @@
 import React from 'react';
 import UopLogo from '../../assets/uoplogo.png';
 import { MainNavData } from './NavData';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const MainNav = () => {
+const MainNav = ({ isAtTop }) => {
+    const location = useLocation();
+
     return (
-        <nav className="xl:px-20 px-6 py-4  bg-[rgba(0,0,0,0.3)] text-white backdrop-blur-md">
+        <nav
+            className={`xl:px-20 px-6 transition-all duration-300 text-white backdrop-blur-md ${isAtTop ? 'py-4 bg-[rgba(0,0,0,0.3)]' : 'py-2 bg-[#560606]'
+                }`}
+        >
             <div className="flex items-center justify-between max-w-7xl mx-auto">
                 {/* Logo */}
                 <Link to="/" aria-label="University of Peradeniya Home">
-                    <img src={UopLogo} alt="University of Peradeniya Logo" className="xl:h-20 h-12 w-auto" />
+                    <img
+                        src={UopLogo}
+                        alt="University of Peradeniya Logo"
+                        className={`w-auto transition-all duration-300 ${isAtTop ? 'xl:h-20 h-12' : 'xl:h-14 h-8'
+                            }`}
+                    />
                 </Link>
 
                 {/* Desktop Navigation Links */}
-                <div className="hidden xl:flex space-x-8 font-semibold text-white uppercase tracking-wide">
+                <div className="hidden xl:flex space-x-8 font-semibold uppercase tracking-wide">
                     {MainNavData.map(({ id, name, link }) => (
                         <Link
                             key={id}
                             to={link}
-                            className="hover:text-yellow-400 transition-colors duration-200"
-                            aria-current={window.location.pathname === link ? 'page' : undefined}
+                            className={`hover:text-yellow-400 transition-colors duration-200 ${location.pathname === link ? 'text-yellow-400' : ''
+                                }`}
                         >
                             {name}
                         </Link>

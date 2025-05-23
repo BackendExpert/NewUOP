@@ -9,24 +9,26 @@ import SecNav from "./component/Nav/SecNav";
 import Error404 from "./component/Errors/Error404";
 
 function AppContent() {
-  const [showNavBar, setShowNavBar] = useState(true);
+  const [showMainNav, setShowMainNav] = useState(true);
+  const [showSecNav, setShowSecNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isAtTop, setIsAtTop] = useState(true);
   const location = useLocation();
 
-  // ✅ Scroll handler
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    setShowNavBar(currentScrollY < lastScrollY || currentScrollY < 50);
-    setLastScrollY(currentScrollY);
-  };
-
-  // ✅ Add scroll listener
   useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setIsAtTop(currentScrollY < 10);
+      setShowMainNav(currentScrollY < lastScrollY || currentScrollY < 50);
+      setShowSecNav(currentScrollY < lastScrollY || currentScrollY < 50);
+      setLastScrollY(currentScrollY);
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // ✅ AOS on route change
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
     AOS.refresh();
@@ -36,24 +38,22 @@ function AppContent() {
 
   return (
     <>
-
-      {!hideNavBarForDashboard && (
-        <div className="hidden xl:block fixed top-0 w-full z-50 backdrop-blur">
-          <MainNav />
+      {!hideNavBarForDashboard && showMainNav && (
+        <div className="hidden xl:block fixed top-0 w-full z-50 transition-colors duration-300">
+          <MainNav isAtTop={isAtTop} />
         </div>
       )}
 
-      {/* SecNav slides in/out on scroll */}
       {!hideNavBarForDashboard && (
         <div
-          className={`fixed top-0 xl:top-28 w-full z-40 transition-transform duration-300
-            ${showNavBar ? "translate-y-0" : "-translate-y-full"}`}
+          className={`fixed ${showMainNav ? "top-16 xl:top-28" : "top-0"
+            } w-full z-40 transition-transform duration-300 ${showSecNav ? "translate-y-0" : "-translate-y-full"
+            }`}
         >
-          <SecNav />
+          <SecNav isAtTop={isAtTop} />
         </div>
       )}
 
-      {/* Page content */}
       <div className="mt-0">
         <Routes>
           <Route path="/" element={<HomePage />} />

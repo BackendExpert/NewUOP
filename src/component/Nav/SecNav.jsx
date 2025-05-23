@@ -34,9 +34,8 @@ const SecNav = () => {
 
     return (
         <div>
-            {/* Transparent background + blur */}
-            <div className="xl:px-20 px-4 py-4 bg-[rgba(0,0,0,0.3)] text-white backdrop-blur-md">
-
+            {/* Background changes based on scroll position */}
+            <div className={`xl:px-20 px-4 py-4 text-white backdrop-blur-md transition-colors duration-300 ${atTop ? 'bg-[rgba(0,0,0,0.3)]' : '-mt-10 bg-[#560606]'}`}>
 
                 <div className="flex justify-between">
                     <div className="xl:hidden block">
