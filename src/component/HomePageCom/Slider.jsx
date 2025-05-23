@@ -65,7 +65,7 @@ const Slider = () => {
             <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
 
             {/* Text Content & Button */}
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pt-32">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 xl:pt-32">
                 <h1 className="text-lg sm:text-2xl md:text-4xl font-bold text-white mb-2">
                     {imagedata[currentIndex]?.title || "Default Title"}
                 </h1>
