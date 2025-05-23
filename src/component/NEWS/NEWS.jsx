@@ -50,16 +50,15 @@ const NEWS = () => {
                             return (
                                 <div
                                     key={index}
+                                    aria-label={news.news_title}
+                                    onClick={() => toggleExpand(index)}
                                     className={`relative rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition duration-500 hover:scale-[1.03]`}
                                     style={{
                                         backgroundImage: `url(${import.meta.env.VITE_APP_API}/${news.news_img})`,
                                         backgroundSize: "cover",
                                         backgroundPosition: "center",
                                         color: "white",
-                                        paddingBottom: isExpanded ? "auto" : "240px",
                                     }}
-                                    aria-label={news.news_title}
-                                    onClick={() => toggleExpand(index)}
                                 >
                                     {/* Dark opacity overlay */}
                                     <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
@@ -82,9 +81,8 @@ const NEWS = () => {
 
                                     {/* Sliding description panel */}
                                     <div
-                                        className={`absolute left-0 right-0 bottom-0 bg-[#560606] p-6 text-white transform transition-transform duration-500 ease-in-out z-30
-                      ${isExpanded ? "translate-y-0" : "translate-y-full"}
-                    `}
+                                        className={`absolute left-0 right-0 bottom-0 bg-[#560606] p-6 text-white transform transition-transform duration-500 ease-in-out z-30 ${isExpanded ? "translate-y-0" : "translate-y-full"
+                                            }`}
                                         onClick={(e) => e.stopPropagation()} // prevent toggle collapse on desc click
                                     >
                                         <h2 className="text-2xl font-bold mb-2">{news.news_title}</h2>
@@ -171,7 +169,6 @@ const NEWS = () => {
                     </a>
                 </center>
             </div>
-
         </div>
     );
 };
