@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import MainNav from "./component/Nav/MainNav";
 import SecNav from "./component/Nav/SecNav";
 import Error404 from "./component/Errors/Error404";
+import MoreNews from "./component/NEWS/MoreNews";
+import AllEvents from "./component/Events/AllEvents";
 
 function AppContent() {
   const [showMainNav, setShowMainNav] = useState(true);
@@ -56,9 +58,11 @@ function AppContent() {
 
       <div className="mt-0">
         <Routes>
-          <Route path="/" element={<HomePage />} />
           <Route path="*" element={<Error404 />} />
-        </Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/news" element={<MoreNews /> } />
+          <Route path="/AllEvents" element={<AllEvents /> } /> 
+         </Routes>
       </div>
     </>
   );

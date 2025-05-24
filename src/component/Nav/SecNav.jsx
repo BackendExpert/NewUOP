@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { secNavData } from './NavData'
+import React, { useEffect, useState } from 'react';
+import { secNavData } from './NavData';
 import { TiThMenu } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
-import uoplogo from '../../assets/uoplogo.png'
+import uoplogo from '../../assets/uoplogo.png';
 import { FaChevronDown } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import NavMenuMobile from './NavMenuMobile';
 
 const SecNav = () => {
-    const [menuopen, setmenuopen] = useState(false)
-    const [atTop, setAtTop] = useState(true);
+    const location = useLocation();
+    const isHome = location.pathname === '/';
 
-    const headleopenmenu = () => {
-        setmenuopen(!menuopen)
-    }
+    const [menuopen, setmenuopen] = useState(false);
+    const [atTop, setAtTop] = useState(true);
+    const [dksubmenu, setdksubmenu] = useState(false);
+
+    const handleOpenMenu = () => {
+        setmenuopen(!menuopen);
+    };
 
     const checkScroll = () => {
-        if (window.scrollY === 0) {
-            setAtTop(true);
-        } else {
-            setAtTop(false);
-        }
+        setAtTop(window.scrollY === 0);
     };
 
     useEffect(() => {
@@ -30,13 +30,15 @@ const SecNav = () => {
         };
     }, []);
 
-    const [dksubmenu, setdksubmenu] = useState(false);
+    // Determine background class based on pathname and scroll
+    const bgColor = isHome
+        ? (atTop ? 'bg-[rgba(0,0,0,0.3)]' : 'bg-[#560606]')
+        : 'bg-[#560606]';
 
     return (
         <div>
-            {/* Background changes based on scroll position */}
-            <div className={`xl:px-20 px-4 py-4 text-white backdrop-blur-md transition-colors duration-300 ${atTop ? 'bg-[rgba(0,0,0,0.3)]' : 'xl:-mt-10 bg-[#560606]'}`}>
-
+            <div className={`xl:px-20 px-4 py-4 text-white backdrop-blur-md transition-colors duration-300 ${!atTop ? 'xl:-mt-10' : ''}  ${bgColor}`}>
+                {/* Mobile Top Bar */}
                 <div className="flex justify-between">
                     <div className="xl:hidden block">
                         <img src={uoplogo} alt="UOP Logo" className='h-8 w-auto' />
@@ -53,16 +55,17 @@ const SecNav = () => {
                         {
                             !menuopen ?
                                 <div className="cursor-pointer">
-                                    <TiThMenu className='h-8 w-auto fill-white' onClick={headleopenmenu} />
+                                    <TiThMenu className='h-8 w-auto fill-white' onClick={handleOpenMenu} />
                                 </div>
                                 :
                                 <div className="cursor-pointer">
-                                    <IoClose className='h-8 w-auto fill-white' onClick={headleopenmenu} />
+                                    <IoClose className='h-8 w-auto fill-white' onClick={handleOpenMenu} />
                                 </div>
                         }
                     </div>
                 </div>
 
+                {/* Desktop Menu */}
                 <div className="xl:block hidden flex justify-end">
                     <div className="flex relative">
                         {secNavData.map((data, index) => (
@@ -83,18 +86,16 @@ const SecNav = () => {
                                             </p>
                                         </div>
                                     ) : (
-                                        <div>
-                                            <Link to={data.link}>
-                                                <h1 className="font-semibold uppercase">
-                                                    {data.name}
-                                                </h1>
-                                            </Link>
-                                        </div>
+                                        <Link to={data.link}>
+                                            <h1 className="font-semibold uppercase">
+                                                {data.name}
+                                            </h1>
+                                        </Link>
                                     )}
                                 </div>
 
                                 {/* Submenu */}
-                                {dksubmenu === data.id && data.submenu && Array.isArray(data.submenu) && (
+                                {dksubmenu === data.id && data.submenu && (
                                     <div className="absolute top-full -left-20 -right-20 bg-none text-white shadow-lg z-50 pt-4 max-h-[100vh] overflow-y-auto">
                                         <div className="relative"></div>
                                         <div className='absolute inset-0 bg-black opacity-80 mt-4'></div>
@@ -102,7 +103,7 @@ const SecNav = () => {
                                             <div className="grid grid-cols-4 gap-0">
                                                 {data.submenu.map((submenu, submenuIndex) => (
                                                     <div key={submenuIndex}>
-                                                        {submenu.menusubL && Array.isArray(submenu.menusubL) && submenu.menusubL.length > 0 ? (
+                                                        {submenu.menusubL && submenu.menusubL.length > 0 ? (
                                                             <div className="py-4">
                                                                 <h1 className='text-xl text-[#e8b910]'>
                                                                     {submenu.name === "Sustainability" ? (
@@ -112,7 +113,7 @@ const SecNav = () => {
                                                                             </h1>
                                                                         </a>
                                                                     ) : (
-                                                                        <>{submenu.name}</>
+                                                                        submenu.name
                                                                     )}
                                                                 </h1>
                                                                 <p>
@@ -156,9 +157,10 @@ const SecNav = () => {
                 </div>
             </div>
 
+            {/* Mobile Navigation Component */}
             <NavMenuMobile secNavData={secNavData} menuopen={menuopen} />
         </div>
-    )
-}
+    );
+};
 
 export default SecNav;

@@ -6,10 +6,15 @@ import { Link, useLocation } from 'react-router-dom';
 const MainNav = ({ isAtTop }) => {
     const location = useLocation();
 
+    const isHome = location.pathname === '/';
+    const bgColor = isHome
+        ? (isAtTop ? 'bg-[rgba(0,0,0,0.3)]' : 'bg-[#560606]')
+        : 'bg-[#560606]';
+    const paddingY = isAtTop ? 'py-4' : 'py-2';
+
     return (
         <nav
-            className={`xl:px-20 px-6 transition-all duration-300 text-white backdrop-blur-md ${isAtTop ? 'py-4 bg-[rgba(0,0,0,0.3)]' : 'py-2 bg-[#560606]'
-                }`}
+            className={`xl:px-20 px-6 transition-all duration-300 text-white backdrop-blur-md ${paddingY} ${bgColor}`}
         >
             <div className="flex items-center justify-between max-w-7xl mx-auto">
                 {/* Logo */}
