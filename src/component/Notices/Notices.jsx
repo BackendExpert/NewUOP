@@ -30,7 +30,7 @@ const Notices = () => {
                         const dateB = new Date(b.notice_date);
                         return dateA - dateB;
                     });
-                    const limitedNotices = acceptedNotices.slice(0, 6);
+                    const limitedNotices = acceptedNotices.slice(0, 4);
                     setnoticedata(limitedNotices);
                 } else {
                     setnoticedata([]);
@@ -41,6 +41,11 @@ const Notices = () => {
                 setnoticedata([]);
             });
     }, []);
+
+    const truncateDescription = (desc) => {
+        if (!desc) return "";
+        return desc.length > 170 ? desc.slice(0, 170) + "..." : desc;
+    };
 
     const noticesToShow = isMobile ? noticedata.slice(0, 3) : noticedata;
 
@@ -64,10 +69,8 @@ const Notices = () => {
                 ) : (
                     <div>
                         {noticesToShow.map((notice, index) => {
-                            // Alternate alignment: even index left, odd index right
                             const alignClass = index % 2 === 0 ? "text-left" : "text-right";
 
-                            // Format notice_date nicely (optional)
                             const formattedDate = new Date(notice.notice_date).toLocaleDateString(undefined, {
                                 year: "numeric",
                                 month: "short",
@@ -81,9 +84,7 @@ const Notices = () => {
                                 >
                                     <h1 className="text-lg font-bold text-[#560606]">{notice.notice_title}</h1>
                                     <p className="text-sm text-gray-500 mb-2">{formattedDate}</p>
-
-                                    <p className="py-4">{notice.notice_desc}</p>
-
+                                    <p className="py-4">{truncateDescription(notice.notice_desc)}</p>
                                     {notice.notice_link && (
                                         <a
                                             href={notice.notice_link}
@@ -100,6 +101,7 @@ const Notices = () => {
                     </div>
                 )}
             </div>
+
             <div>
                 <center>
                     <a href="#" target="_blank" rel="noopener noreferrer">

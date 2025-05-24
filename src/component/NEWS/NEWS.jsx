@@ -12,20 +12,16 @@ const NEWS = () => {
                 headers: { "Content-Type": "application/json" },
             })
             .then((res) => {
-
                 if (res.data.Result && Array.isArray(res.data.Result)) {
-                    // Filter active news only (is_active === 1 or missing)
-                    const filteredNews = res.data.Result.filter((newsItem) => {
-                        return parseInt(newsItem.is_active || "1") === 1;
-                    });
+                    const filteredNews = res.data.Result.filter((newsItem) =>
+                        parseInt(newsItem.is_active || "1") === 1
+                    );
 
-                    // Sort descending by date (newest first), handle missing date as 0
                     const sortedNews = filteredNews.sort(
                         (a, b) =>
                             new Date(b.news_date || b.date || 0) - new Date(a.news_date || a.date || 0)
                     );
 
-                    // Take up to 6 items
                     const lastSixNews = sortedNews.slice(0, 6);
                     setnewsdata(lastSixNews);
                 } else {
@@ -47,6 +43,11 @@ const NEWS = () => {
         return imgPath.startsWith("http")
             ? imgPath
             : `${import.meta.env.VITE_APP_API}/${imgPath}`;
+    };
+
+    const truncateDescription = (desc) => {
+        if (!desc) return "";
+        return desc.length > 180 ? desc.slice(0, 180) + "..." : desc;
     };
 
     return (
@@ -126,7 +127,9 @@ const NEWS = () => {
                                             </p>
                                         )}
                                         {news.news_desc && (
-                                            <p className="mb-6 whitespace-pre-line">{news.news_desc}</p>
+                                            <p className="mb-6 whitespace-pre-line">
+                                                {truncateDescription(news.news_desc)}
+                                            </p>
                                         )}
                                         <button
                                             onClick={() => {
@@ -170,7 +173,7 @@ const NEWS = () => {
                                         )}
                                         {news.news_desc && (
                                             <p className="text-gray-700 text-base line-clamp-3 mb-6">
-                                                {news.news_desc}
+                                                {truncateDescription(news.news_desc)}
                                             </p>
                                         )}
                                         <button

@@ -5,7 +5,7 @@ const Events = ({ data }) => {
     const [eventdata, seteventdata] = useState([]);
 
     useEffect(() => {
-        if (!data) {  // only fetch if no data prop passed
+        if (!data) {
             axios.get(import.meta.env.VITE_APP_API + "/event.php", {
                 params: { action: "getallEvents" },
                 headers: { "Content-Type": "application/json" },
@@ -24,13 +24,16 @@ const Events = ({ data }) => {
         }
     }, [data]);
 
-    if (data) return null;  // if data is passed, show nothing as you asked
+    if (data) return null;
 
     const now = new Date();
-    // On mobile show 3, on desktop show 6
-    const maxItems = window.innerWidth < 768 ? 3 : 6;
+    const maxItems = window.innerWidth < 768 ? 3 : 4;
 
-    // Filter upcoming accepted events
+    const truncateDescription = (desc) => {
+        if (!desc) return "";
+        return desc.length > 80 ? desc.slice(0, 80) + "..." : desc;
+    };
+
     const upcomingEvents = eventdata
         .filter(event =>
             parseInt(event.is_accepted) === 1 &&
@@ -69,11 +72,8 @@ const Events = ({ data }) => {
                         return (
                             <div
                                 key={index}
-                                // On mobile flex-col (image top), on md flex-row alternating
-                                className={`bg-gray-100 shadow-md rounded-xl overflow-hidden flex flex-col md:flex-row ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                                    }`}
+                                className={`bg-gray-100 shadow-md rounded-xl overflow-hidden flex flex-col md:flex-row ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                             >
-                                {/* Image section */}
                                 <div className="w-full md:w-1/3 h-48 md:h-auto">
                                     <img
                                         src={`${import.meta.env.VITE_APP_API}/${event.event_img}`}
@@ -83,10 +83,9 @@ const Events = ({ data }) => {
                                     />
                                 </div>
 
-                                {/* Text section */}
                                 <div className="w-full md:w-2/3 p-4 flex flex-col justify-start">
                                     <h1 className="text-[#560606] font-bold">{event.event_title}</h1>
-                                    <p className="py-2">{event.envet_desc}</p>
+                                    <p className="py-2">{truncateDescription(event.envet_desc)}</p>
                                     <p className="text-sm text-gray-600">Date: {formattedDate}</p>
                                     {event.event_link && (
                                         <a
