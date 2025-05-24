@@ -12,6 +12,10 @@ import AllEvents from "./component/Events/AllEvents";
 import MoreNotice from "./component/Notices/MoreNotice";
 import ViewOneNews from "./component/NEWS/ViewOneNews";
 
+import DiplomaProgrammes from "./component/ProgramsInUop/DiplomaProgrammes"
+import CertificatesWorkshops from "./component/ProgramsInUop/CertificatesWorkshops"
+
+
 function AppContent() {
   const [showMainNav, setShowMainNav] = useState(true);
   const [showSecNav, setShowSecNav] = useState(true);
@@ -62,11 +66,13 @@ function AppContent() {
         <Routes>
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<HomePage />} />
-          <Route path="/news" element={<MoreNews /> } />
-          <Route path="/AllEvents" element={<AllEvents /> } /> 
-          <Route path="/Notices" element={<MoreNotice /> } /> 
-          <Route path="/ViewNews/:id" element={<ViewOneNews /> } />
-         </Routes>
+          <Route path="/news" element={<MoreNews />} />
+          <Route path="/AllEvents" element={<AllEvents />} />
+          <Route path="/Notices" element={<MoreNotice />} />
+          <Route path="/ViewNews/:id" element={<ViewOneNews />} />
+          <Route path="/diplomas" element={<DiplomaProgrammes />} />
+          <Route path="/certificates" element={<CertificatesWorkshops />} />
+        </Routes>
       </div>
     </>
   );
