@@ -29,7 +29,7 @@ const Notices = () => {
                     Latest News
                 </h1>
                 <h1 className="md:text-xl text-sm uppercase text-[#560606] mb-10 text-center tracking-wide">
-                    Latest Events
+                    Upcoming Events
                 </h1>
                 <h1 className="md:text-3xl text-xs font-extrabold uppercase text-[#560606] mb-10 text-center tracking-wide">
                     Latest Notices

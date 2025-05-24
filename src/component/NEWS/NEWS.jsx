@@ -39,7 +39,7 @@ const NEWS = () => {
                     Latest News
                 </h1>
                 <h1 className="md:text-xl text-sm uppercase text-[#560606] mb-10 text-center tracking-wide">
-                    Latest Events
+                    Upcoming Events
                 </h1>
                 <h1 className="md:text-xl text-sm uppercase text-[#560606] mb-10 text-center tracking-wide">
                     Latest Notices
@@ -173,7 +173,7 @@ const NEWS = () => {
                             type="button"
                             className="mt-8 bg-[#560606] hover:bg-[#7a0a0a] text-white px-4 py-2 rounded-md font-semibold transition-colors duration-300"
                         >
-                            Read More
+                            More NEWS
                         </button>
                     </a>
                 </center>
