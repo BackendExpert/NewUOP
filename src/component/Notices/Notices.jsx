@@ -104,7 +104,7 @@ const Notices = () => {
 
             <div>
                 <center>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    <a href="/Notices" rel="noopener noreferrer">
                         <button
                             type="button"
                             className="mt-8 bg-[#560606] hover:bg-[#7a0a0a] text-white px-4 py-2 rounded-md font-semibold transition-colors duration-300"

@@ -60,7 +60,7 @@ const MoreNews = () => {
                             <div className="p-4">
                                 <h3 className="text-lg font-semibold text-[#7c340c] mb-2">{data.news_title}</h3>
                                 <p className="text-gray-600 text-sm line-clamp-3">{data.news_desc}</p>
-                                <a href={`/ViewOneNews/${data.id}`} rel="noopener noreferrer" className="inline-block mt-3 text-[#e5bc11] font-medium hover:underline">
+                                <a href={`/ViewNews/${data.id}`} rel="noopener noreferrer" className="inline-block mt-3 text-[#e5bc11] font-medium hover:underline">
                                     Read more →
                                 </a>
                             </div>

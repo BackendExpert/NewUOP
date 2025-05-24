@@ -9,6 +9,8 @@ import SecNav from "./component/Nav/SecNav";
 import Error404 from "./component/Errors/Error404";
 import MoreNews from "./component/NEWS/MoreNews";
 import AllEvents from "./component/Events/AllEvents";
+import MoreNotice from "./component/Notices/MoreNotice";
+import ViewOneNews from "./component/NEWS/ViewOneNews";
 
 function AppContent() {
   const [showMainNav, setShowMainNav] = useState(true);
@@ -62,6 +64,8 @@ function AppContent() {
           <Route path="/" element={<HomePage />} />
           <Route path="/news" element={<MoreNews /> } />
           <Route path="/AllEvents" element={<AllEvents /> } /> 
+          <Route path="/Notices" element={<MoreNotice /> } /> 
+          <Route path="/ViewNews/:id" element={<ViewOneNews /> } />
          </Routes>
       </div>
     </>
