@@ -34,9 +34,18 @@ const NEWS = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-extrabold uppercase text-[#560606] mb-10 text-center tracking-wide">
-                Latest News
-            </h1>
+            <div className="flex item-center justify-around">
+                <h1 className="md:text-3xl text-xs font-extrabold uppercase text-[#560606] mb-10 text-center tracking-wide">
+                    Latest News
+                </h1>
+                <h1 className="md:text-xl text-sm uppercase text-[#560606] mb-10 text-center tracking-wide">
+                    Latest Events
+                </h1>
+                <h1 className="md:text-xl text-sm uppercase text-[#560606] mb-10 text-center tracking-wide">
+                    Latest Notices
+                </h1>
+            </div>
+
 
             {newsdata.length === 0 ? (
                 <p className="text-center text-gray-500">No news available</p>

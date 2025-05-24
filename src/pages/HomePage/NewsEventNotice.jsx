@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import NEWS from '../../component/NEWS/NEWS';
+import Events from '../../component/Events/Events';
+import Notices from '../../component/Notices/Notices';
 
 const NewsEventNotice = () => {
     const newsCount = 3; // Number of news items
@@ -88,10 +90,10 @@ const NewsEventNotice = () => {
                         <NEWS />
                     </div>
                     <div className="flex-shrink-0" style={{ width: `${100 / newsCount}%` }}>
-                        <NEWS />
+                        <Events />
                     </div>
                     <div className="flex-shrink-0" style={{ width: `${100 / newsCount}%` }}>
-                        <NEWS />
+                        <Notices />
                     </div>
                 </div>
             </div>
