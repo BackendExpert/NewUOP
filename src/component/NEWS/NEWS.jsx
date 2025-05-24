@@ -12,10 +12,20 @@ const NEWS = () => {
                 headers: { "Content-Type": "application/json" },
             })
             .then((res) => {
-                if (res.data.Result) {
-                    const sortedNews = res.data.Result.sort(
-                        (a, b) => new Date(b.news_date || b.date) - new Date(a.news_date || a.date)
+
+                if (res.data.Result && Array.isArray(res.data.Result)) {
+                    // Filter active news only (is_active === 1 or missing)
+                    const filteredNews = res.data.Result.filter((newsItem) => {
+                        return parseInt(newsItem.is_active || "1") === 1;
+                    });
+
+                    // Sort descending by date (newest first), handle missing date as 0
+                    const sortedNews = filteredNews.sort(
+                        (a, b) =>
+                            new Date(b.news_date || b.date || 0) - new Date(a.news_date || a.date || 0)
                     );
+
+                    // Take up to 6 items
                     const lastSixNews = sortedNews.slice(0, 6);
                     setnewsdata(lastSixNews);
                 } else {
@@ -23,13 +33,20 @@ const NEWS = () => {
                 }
             })
             .catch((err) => {
-                console.error(err);
+                console.error("News fetch error:", err);
                 setnewsdata([]);
             });
     }, []);
 
     const toggleExpand = (index) => {
         setExpandedIndex((prev) => (prev === index ? null : index));
+    };
+
+    const getImageUrl = (imgPath) => {
+        if (!imgPath) return "";
+        return imgPath.startsWith("http")
+            ? imgPath
+            : `${import.meta.env.VITE_APP_API}/${imgPath}`;
     };
 
     return (
@@ -46,7 +63,6 @@ const NEWS = () => {
                 </h1>
             </div>
 
-
             {newsdata.length === 0 ? (
                 <p className="text-center text-gray-500">No news available</p>
             ) : (
@@ -54,6 +70,7 @@ const NEWS = () => {
                     {newsdata.map((news, index) => {
                         const isStyleA = index % 2 === 0;
                         const isExpanded = expandedIndex === index;
+                        const imgUrl = getImageUrl(news.news_img);
 
                         if (isStyleA) {
                             return (
@@ -63,45 +80,49 @@ const NEWS = () => {
                                     onClick={() => toggleExpand(index)}
                                     className={`relative rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition duration-500 hover:scale-[1.03]`}
                                     style={{
-                                        backgroundImage: `url(${import.meta.env.VITE_APP_API}/${news.news_img})`,
+                                        backgroundImage: `url(${imgUrl})`,
                                         backgroundSize: "cover",
                                         backgroundPosition: "center",
                                         color: "white",
+                                        minHeight: "250px",
                                     }}
                                 >
-                                    {/* Dark opacity overlay */}
                                     <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
 
-                                    {/* Title + Date at bottom */}
                                     <div className="absolute bottom-4 left-4 right-4 z-20">
                                         <h2 className="text-2xl font-bold drop-shadow-md">
                                             {news.news_title}
                                         </h2>
                                         {(news.news_date || news.date) && (
                                             <p className="text-gray-300 mt-1 text-sm font-medium">
-                                                {new Date(news.news_date || news.date).toLocaleDateString(undefined, {
-                                                    year: "numeric",
-                                                    month: "short",
-                                                    day: "numeric",
-                                                })}
+                                                {new Date(news.news_date || news.date).toLocaleDateString(
+                                                    undefined,
+                                                    {
+                                                        year: "numeric",
+                                                        month: "short",
+                                                        day: "numeric",
+                                                    }
+                                                )}
                                             </p>
                                         )}
                                     </div>
 
-                                    {/* Sliding description panel */}
                                     <div
                                         className={`absolute left-0 right-0 bottom-0 bg-[#560606] p-6 text-white transform transition-transform duration-500 ease-in-out z-30 ${isExpanded ? "translate-y-0" : "translate-y-full"
                                             }`}
-                                        onClick={(e) => e.stopPropagation()} // prevent toggle collapse on desc click
+                                        onClick={(e) => e.stopPropagation()}
                                     >
                                         <h2 className="text-2xl font-bold mb-2">{news.news_title}</h2>
                                         {(news.news_date || news.date) && (
                                             <p className="text-gray-300 mb-4 text-sm font-medium">
-                                                {new Date(news.news_date || news.date).toLocaleDateString(undefined, {
-                                                    year: "numeric",
-                                                    month: "short",
-                                                    day: "numeric",
-                                                })}
+                                                {new Date(news.news_date || news.date).toLocaleDateString(
+                                                    undefined,
+                                                    {
+                                                        year: "numeric",
+                                                        month: "short",
+                                                        day: "numeric",
+                                                    }
+                                                )}
                                             </p>
                                         )}
                                         {news.news_desc && (
@@ -109,7 +130,7 @@ const NEWS = () => {
                                         )}
                                         <button
                                             onClick={() => {
-                                                window.open(news.news_url || "#", "_blank");
+                                                window.open(news.news_link || news.news_url || "#", "_blank");
                                             }}
                                             className="bg-white text-[#560606] hover:bg-gray-200 transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
                                         >
@@ -119,7 +140,6 @@ const NEWS = () => {
                                 </div>
                             );
                         } else {
-                            // Style B unchanged
                             return (
                                 <div
                                     key={index}
@@ -127,7 +147,7 @@ const NEWS = () => {
                                     aria-label={news.news_title}
                                 >
                                     <img
-                                        src={`${import.meta.env.VITE_APP_API}/${news.news_img}`}
+                                        src={imgUrl}
                                         alt={news.news_title}
                                         className="w-full h-48 object-cover"
                                         loading="lazy"
@@ -138,11 +158,14 @@ const NEWS = () => {
                                         </h2>
                                         {(news.news_date || news.date) && (
                                             <p className="text-gray-500 text-sm mb-4">
-                                                {new Date(news.news_date || news.date).toLocaleDateString(undefined, {
-                                                    year: "numeric",
-                                                    month: "short",
-                                                    day: "numeric",
-                                                })}
+                                                {new Date(news.news_date || news.date).toLocaleDateString(
+                                                    undefined,
+                                                    {
+                                                        year: "numeric",
+                                                        month: "short",
+                                                        day: "numeric",
+                                                    }
+                                                )}
                                             </p>
                                         )}
                                         {news.news_desc && (
@@ -152,7 +175,7 @@ const NEWS = () => {
                                         )}
                                         <button
                                             onClick={() => {
-                                                window.open(news.news_url || "#", "_blank");
+                                                window.open(news.news_link || news.news_url || "#", "_blank");
                                             }}
                                             className="bg-[#560606] hover:bg-[#7a0a0a] transition-colors duration-300 text-white px-4 py-2 rounded-md font-semibold"
                                         >
