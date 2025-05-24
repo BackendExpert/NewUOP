@@ -14,7 +14,7 @@ import ViewOneNews from "./component/NEWS/ViewOneNews";
 
 import DiplomaProgrammes from "./component/ProgramsInUop/DiplomaProgrammes"
 import CertificatesWorkshops from "./component/ProgramsInUop/CertificatesWorkshops"
-
+import RsearchAll  from './component/AllResearch/RsearchAll'
 
 function AppContent() {
   const [showMainNav, setShowMainNav] = useState(true);
@@ -72,6 +72,7 @@ function AppContent() {
           <Route path="/ViewNews/:id" element={<ViewOneNews />} />
           <Route path="/diplomas" element={<DiplomaProgrammes />} />
           <Route path="/certificates" element={<CertificatesWorkshops />} />
+          <Route path="/Researches" element={<RsearchAll /> } />
         </Routes>
       </div>
     </>
