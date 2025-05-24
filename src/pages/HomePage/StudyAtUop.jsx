@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { programData } from '../../component/ProgramsInUop/ProgramData'
+import HorizontalScroll from '../../component/ProgramsInUop/HorizontalScorll'
 
 const StudyAtUop = () => {
     const undergraduate = programData.find(p => p.id === 1)
     const postgraduate = programData.find(p => p.id === 2)
+
+    const [selectedImage, setSelectedImage] = useState(null)
+
+    // Optional: close modal on Esc key
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setSelectedImage(null)
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [])
 
     return (
         <div className="px-4 sm:px-6 md:px-10 py-10">
@@ -60,6 +72,36 @@ const StudyAtUop = () => {
                     </div>
                 </div>
             </div>
+
+            <h1 className="text-[#560606] text-xl sm:text-3xl md:text-2xl mt-24 mb-16 font-bold uppercase mb-6 text-center md:text-left">
+                Upcoming Programmes and Events
+            </h1>
+
+            <HorizontalScroll setSelectedImage={setSelectedImage} />
+
+            {selectedImage && (
+                <div
+                    className="fixed inset-0 flex justify-center items-center bg-black/70 z-50"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <div
+                        className="relative"
+                        onClick={(e) => e.stopPropagation()} // Prevent modal from closing on image click
+                    >
+                        <button
+                            className="absolute -top-6 -right-6 text-white text-5xl font-bold hover:text-red-500 transition z-50"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            &times;
+                        </button>
+                        <img
+                            src={selectedImage}
+                            alt="Selected Event"
+                            className="max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl transition-transform duration-300"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
