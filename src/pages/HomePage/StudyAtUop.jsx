@@ -8,6 +8,15 @@ const StudyAtUop = () => {
             <p className="md:text-xl font-semibold text-gray-500 mt-4">
                 The University of Peradeniya welcomes both Sri Lankan and international students to experience globally recognized education, pioneering research, and a dynamic campus environment.
             </p>
+
+            <div className="flex">
+                <div className="w-1/3">
+                
+                </div>
+                <div className="w-full">
+                    
+                </div>
+            </div>
         </div>
     )
 }
