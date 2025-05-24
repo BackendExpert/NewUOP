@@ -1,65 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
-
-const diplomaData = [
-  {
-    name: "Diploma in Management and Development",
-    offeredBy: "Centre for Distance and Continuing Education (CDCE)",
-    link: "https://cdce.pdn.ac.lk/diploma2.php",
-    logo: "/mgt.png",
-    skills: "Leadership, Strategic Planning, Public Management"
-  },
-  {
-    name: "Diploma in Library and Information Services",
-    offeredBy: "Centre for Distance and Continuing Education (CDCE)",
-    link: "https://cdce.pdn.ac.lk/diploma2.php",
-    logo: "/library1.jpg",
-    skills: "Cataloging, Digital Archiving, Research Tools"
-  },
-  {
-    name: "Diploma in Early Childhood Care and Development",
-    offeredBy: "Centre for Distance and Continuing Education (CDCE)",
-    link: "https://cdce.pdn.ac.lk/diploma2.php",
-    logo: "/child.jpg",
-    skills: "Child Psychology, Educational Play, Communication"
-  },
-  {
-    name: "Diploma in Laboratory Technology",
-    offeredBy: "Centre for Distance and Continuing Education (CDCE)",
-    link: "https://cdce.pdn.ac.lk/diploma2.php",
-    logo: "/lab.jpeg",
-    skills: "Lab Safety, Sample Analysis, Instrumentation"
-  },
-  {
-    name: "Diploma in Computing and Electronics",
-    offeredBy: "Centre for Distance and Continuing Education (CDCE)",
-    link: "https://cdce.pdn.ac.lk/diploma2.php",
-    logo: "/computer.jpeg",
-    skills: "Programming, Microcontrollers, Digital Logic"
-  },
-  {
-    name: "Diploma in Exercise and Sport Sciences",
-    offeredBy: "Faculty of Medicine",
-    link: "https://med.pdn.ac.lk/departments/sportsciences/index.php",
-    logo: "/sport.jpeg",
-    skills: "Fitness Assessment, Sports Psychology, Training"
-  },
-  {
-    name: "Diploma in Human Rights",
-    offeredBy: "Centre for the Study of Human Rights",
-    link: "https://arts.pdn.ac.lk/cshr/",
-    logo: "/hr1.jpeg",
-    skills: "Law, Ethics, International Policy"
-  }
-];
 
 export default function DiplomaProgrammes() {
   const [search, setSearch] = useState("");
+  const [diplomas, setDiplomas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const filteredDiplomas = diplomaData.filter(item =>
-    item.name.toLowerCase().includes(search.toLowerCase()) ||
-    item.offeredBy.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+    const fetchDiplomas = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_APP_API}/diploma.php`, {
+          params: { action: "getalldips" },
+          headers: { "Content-Type": "application/json" },
+        });
+
+        console.log("API response:", res.data);
+
+        if (res.data.Status === "Success" && Array.isArray(res.data.Result)) {
+          setDiplomas(res.data.Result);
+          setError("");
+        } else {
+          setDiplomas([]);
+          setError("No diplomas found.");
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError("Failed to fetch diploma programmes.");
+        setDiplomas([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDiplomas();
+  }, []);
+
+  const filteredDiplomas = diplomas.filter(
+    (item) =>
+      item.title?.toLowerCase().includes(search.toLowerCase()) ||
+      item.description?.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-xl text-gray-600">
+        Loading Diploma Programmes...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-red-600 text-lg">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="xl:pt-40 pt-8 min-h-screen px-6 py-16 bg-gradient-to-br from-white via-slate-100 to-gray-200">
@@ -70,7 +68,7 @@ export default function DiplomaProgrammes() {
       <div className="max-w-xl mx-auto mb-10">
         <input
           type="text"
-          placeholder="Search by title or provider..."
+          placeholder="Search by title or description..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full px-5 py-3 text-gray-700 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -87,22 +85,17 @@ export default function DiplomaProgrammes() {
             transition={{ duration: 0.4, delay: idx * 0.1 }}
             className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-200 flex flex-col h-[380px]"
           >
-            {/* Image takes 50% */}
             <img
-              src={item.logo}
+              src={`${import.meta.env.VITE_APP_API}/${item.image}` || "/placeholder.jpg"}
               alt="Programme Logo"
               className="h-[50%] w-full object-cover"
             />
 
-            {/* Card body */}
             <div className="p-4 flex flex-col justify-between flex-grow">
               <div>
-                <h2 className="text-md font-bold text-gray-800 mb-1">{item.name}</h2>
-                <p className="text-sm text-gray-600 mb-2">
-                  Offered by: <span className="font-medium">{item.offeredBy}</span>
-                </p>
+                <h2 className="text-md font-bold text-gray-800 mb-1">{item.title}</h2>
+                <p className="text-sm text-gray-600 mb-2">{item.description}</p>
 
-                {/* Styled button link */}
                 <a
                   href={item.link}
                   target="_blank"
@@ -113,9 +106,6 @@ export default function DiplomaProgrammes() {
                 </a>
               </div>
 
-              <p className="text-xs text-gray-500 italic">
-                Skills: {item.skills}
-              </p>
             </div>
           </motion.div>
         ))}
