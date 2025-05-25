@@ -2,6 +2,8 @@ import React from 'react'
 import Slider from '../../component/HomePageCom/Slider'
 import NewsEventNotice from './NewsEventNotice'
 import StudyAtUop from './StudyAtUop'
+import ResearchHome from './ResearchHome'
+import DataCount from '../../component/DataCount/DataCount'
 
 const HomePage = () => {
     return (
@@ -13,6 +15,12 @@ const HomePage = () => {
                 <NewsEventNotice />
                 <div className="md:mt-8 mb-16 ">
                     <StudyAtUop />
+                </div>
+                <div className="md:mt-8 mb-16 ">
+                    <ResearchHome />
+                </div>
+                <div className="md:mt-8 mb-16 ">
+                    <DataCount />
                 </div>
             </div>
         </div>
