@@ -21,6 +21,9 @@ import Societies from "./pages/Societies/Societies";
 
 import Organization from "./component/Organization/Organization"
 import Ranking from "./component/Submenus/Ranking"
+import History from "./component/Submenus/History"
+import Crest from "./component/Submenus/Crest"
+import Vission from "./component/Submenus/Vission"
 
 function AppContent() {
   const [showMainNav, setShowMainNav] = useState(true);
@@ -82,6 +85,9 @@ function AppContent() {
           <Route path="/Societies" element={<Societies />} />
           <Route path="/Organization" element={<Organization />} />
           <Route path="/Ranking" element={<Ranking />} />
+          <Route path="/History" element={<History />} />
+          <Route path="/Crest" element={<Crest />} />
+          <Route path="/Vission" element={<Vission />} />
         </Routes>
         <Footer />
       </div>

@@ -20,9 +20,10 @@
     "react-countup": "^6.5.3",
     "react-dom": "^19.1.0",
     "react-icons": "^5.4.0",
+    "react-pageflip": "^2.0.3",
     "react-router-dom": "^7.6.0",
-    "tailwindcss": "^4.1.7",
-    "swiper": "^8.0.0"
+    "swiper": "^8.0.0",
+    "tailwindcss": "^4.1.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

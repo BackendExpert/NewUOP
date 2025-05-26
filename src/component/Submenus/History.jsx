@@ -51,7 +51,7 @@ const HistoryBook = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-start min-h-screen p-4 bg-gradient-to-r from-gray-100 to-gray-300">
+    <div className="xl:py-64 py-32 flex items-center justify-start min-h-screen p-4 bg-gradient-to-r from-gray-100 to-gray-300">
       <HTMLFlipBook
         width={600}
         height={400}
@@ -73,14 +73,12 @@ const HistoryBook = () => {
               History and Heritage
             </h1>
             <div className="flex items-center justify-start w-full h-full">
-  <img
-    src="../src/assets/"
-    alt="Cover"
-    className="object-contain max-w-full "
-  />
-</div>
-
-
+              <img
+                src="../src/assets/"
+                alt="Cover"
+                className="object-contain max-w-full"
+              />
+            </div>
           </div>
         </div>
 
@@ -88,19 +86,24 @@ const HistoryBook = () => {
         {sections.map((section, index) => (
           <div
             key={index}
-            className="flex w-full h-full overflow-hidden bg-white shadow-md"
+            className="flex flex-col md:flex-row w-full h-full bg-white shadow-md overflow-hidden"
           >
             {/* Left page: Image */}
-            <div className="flex items-center justify-center h-full p-3 bg-gray-100 w-1/1">
-              <img
-                src={section.image}
-                alt={`History ${index}`}
-                className="object-cover w-full h-full rounded-lg"
-              />
+            <div className="md:w-1/2 w-full h-64 md:h-auto bg-gray-100 flex items-center justify-center p-3">
+              {section.image && section.image.trim() !== "" ? (
+                <img
+                  src={section.image}
+                  alt={`History ${index}`}
+                  className="object-contain max-w-full max-h-full rounded-lg"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="text-gray-400 italic text-center">No Image Available</div>
+              )}
             </div>
 
             {/* Right page: Text Content */}
-            <div className="flex flex-col justify-center h-full p-5 bg-white ">
+            <div className="md:w-1/2 w-full flex flex-col justify-center p-5 bg-white">
               <h2 className="mb-3 text-xl font-bold text-gray-800">{section.title}</h2>
               <p className="text-sm leading-relaxed text-justify text-gray-600 whitespace-pre-line">
                 {section.content}

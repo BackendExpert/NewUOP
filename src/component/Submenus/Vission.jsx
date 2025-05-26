@@ -81,7 +81,7 @@ const BookPagedLayout = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 select-none"
+      className="xl:py-56 py-24 flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 select-none"
       onClick={handlePageClick}
     >
       <div className="flex w-full max-w-6xl overflow-hidden border shadow-lg cursor-pointer rounded-xl">
