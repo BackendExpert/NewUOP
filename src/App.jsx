@@ -17,6 +17,10 @@ import CertificatesWorkshops from "./component/ProgramsInUop/CertificatesWorksho
 import RsearchAll from './component/AllResearch/RsearchAll'
 
 import Footer from './component/Footer/Footer'
+import Societies from "./pages/Societies/Societies";
+
+import Organization from "./component/Organization/Organization"
+import Ranking from "./component/Submenus/Ranking"
 
 function AppContent() {
   const [showMainNav, setShowMainNav] = useState(true);
@@ -75,6 +79,9 @@ function AppContent() {
           <Route path="/diplomas" element={<DiplomaProgrammes />} />
           <Route path="/certificates" element={<CertificatesWorkshops />} />
           <Route path="/Researches" element={<RsearchAll />} />
+          <Route path="/Societies" element={<Societies />} />
+          <Route path="/Organization" element={<Organization />} />
+          <Route path="/Ranking" element={<Ranking />} />
         </Routes>
         <Footer />
       </div>
